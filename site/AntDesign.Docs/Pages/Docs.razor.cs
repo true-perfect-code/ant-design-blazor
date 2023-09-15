@@ -17,6 +17,8 @@ namespace AntDesign.Docs.Pages
     {
         [Parameter] public string FileName { get; set; }
 
+        [Parameter] public string Culture { get; set; }
+
         [CascadingParameter]
         public MainLayout MainLayout { get; set; }
 

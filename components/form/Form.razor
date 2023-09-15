@@ -4,14 +4,24 @@
 @using Microsoft.AspNetCore.Components.Forms;
 @using AntDesign.Internal;
 
+@{
+    Dictionary<string, object> attributes = [];
+
+#if NET8_0_OR_GREATER
+    attributes.Add(nameof(Enhance), Enhance);
+    attributes.Add(nameof(EditForm.FormName),Name);
+#endif
+}
+
 <Spin Spinning="Loading">
     <EditForm class="@ClassMapper.Class"
               style="@Style"
               id="@Id"
+              @attributes="attributes"
               EditContext="_editContext"
               OnValidSubmit="OnValidSubmit"
               OnInvalidSubmit="OnInvalidSubmit">
-        @if(ValidateMode.IsIn(FormValidateMode.Rules, FormValidateMode.Complex))
+        @if (ValidateMode.IsIn(FormValidateMode.Rules, FormValidateMode.Complex))
         {
             <FormRulesValidator @ref="_rulesValidator" />
         }

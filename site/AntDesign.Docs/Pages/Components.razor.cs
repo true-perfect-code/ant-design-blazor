@@ -16,6 +16,9 @@ namespace AntDesign.Docs.Pages
         [Parameter]
         public string Name { get; set; }
 
+        [Parameter]
+        public string Culture { get;set;}
+
         [Inject]
         private DemoService DemoService { get; set; }
 

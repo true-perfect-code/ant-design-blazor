@@ -18,7 +18,7 @@ namespace AntDesign
 
         /// <summary>
         /// Change how required/optional field labels are displayed on the form.
-        /// 
+        ///
         /// <list type="bullet">
         ///     <item>Required - Will mark required fields</item>
         ///     <item>Optional - Will mark optional fields</item>
@@ -132,6 +132,16 @@ namespace AntDesign
         [Parameter]
         public FormValidateErrorMessages ValidateMessages { get; set; }
 
+#if NET8_0_OR_GREATER
+        /// <summary>
+        /// If enabled, form submission is performed without fully reloading the page. This is
+        /// equivalent to adding <code>data-enhance</code> to the form.
+        ///
+        /// This flag is only relevant in server-side rendering (SSR) scenarios. For interactive
+        /// rendering, the flag has no effect since there is no full-page reload on submit anyway.
+        /// </summary>
+        [Parameter] public bool Enhance { get; set; }
+#endif
 
         [CascadingParameter(Name = "FormProvider")]
         private IFormProvider FormProvider { get; set; }
@@ -189,9 +199,10 @@ namespace AntDesign
         }
 
         private void OnFieldChangedHandler(object sender, FieldChangedEventArgs e) => InvokeAsync(() => OnFieldChanged.InvokeAsync(e));
-        private void OnValidationRequestedHandler(object sender, ValidationRequestedEventArgs e) => InvokeAsync(() => OnValidationRequested.InvokeAsync(e));
-        private void OnValidationStateChangedHandler(object sender, ValidationStateChangedEventArgs e) => InvokeAsync(() => OnValidationStateChanged.InvokeAsync(e));
 
+        private void OnValidationRequestedHandler(object sender, ValidationRequestedEventArgs e) => InvokeAsync(() => OnValidationRequested.InvokeAsync(e));
+
+        private void OnValidationStateChangedHandler(object sender, ValidationStateChangedEventArgs e) => InvokeAsync(() => OnValidationStateChanged.InvokeAsync(e));
 
         protected override void Dispose(bool disposing)
         {
@@ -362,14 +373,14 @@ namespace AntDesign
             _editContext = newContext;
         }
 
-        static BindingFlags AllBindings
+        private static BindingFlags AllBindings
         {
             get { return BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance; }
         }
 
-        static Dictionary<string, (FieldInfo fi, EventInfo ei)> _eventInfos;
+        private static Dictionary<string, (FieldInfo fi, EventInfo ei)> _eventInfos;
 
-        static Dictionary<string, (FieldInfo fi, EventInfo ei)> GetEventInfos()
+        private static Dictionary<string, (FieldInfo fi, EventInfo ei)> GetEventInfos()
         {
             if (_eventInfos is null)
             {

@@ -20,10 +20,17 @@ namespace AntDesign.Docs.Pages
 
         private bool _rendered;
 
+        protected override async Task OnInitializedAsync()
+        {
+            await FetchData();
+            _rendered = true;
+        }
+
         protected override void OnInitialized()
         {
             base.OnInitialized();
 
+           
             Language.LanguageChanged += HandleLanguageChanged;
         }
 
@@ -36,18 +43,18 @@ namespace AntDesign.Docs.Pages
         protected override void OnAfterRender(bool firstRender)
         {
             base.OnAfterRender(firstRender);
-            if (firstRender)
-            {
-                _rendered = true;
-                StateHasChanged();
-                return;
-            }
+            //if (firstRender)
+            //{
+            //    _rendered = true;
+            //    StateHasChanged();
+            //    return;
+            //}
 
-            if (_rendered)
-            {
-                _rendered = false;
-                _ = FetchData();
-            }
+            //if (_rendered)
+            //{
+            //    _rendered = false;
+            //    _ = FetchData();
+            //}
         }
 
         private async Task FetchData()

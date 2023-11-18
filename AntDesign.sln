@@ -43,9 +43,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AntDesign.TestApp.Server", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AntDesign.TestApp.Client", "tests\AntDesign.TestApp\Client\AntDesign.TestApp.Client.csproj", "{5ADDB648-9417-4FE9-8A7D-0D4BF2DD3EC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntDesign.Docs.WebApp", "site\AntDesign.Docs.WebApp\AntDesign.Docs.WebApp\AntDesign.Docs.WebApp.csproj", "{7AD2A96F-0F92-4028-A6A0-CEEDAA9F690E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AntDesign.Docs.WebApp", "site\AntDesign.Docs.WebApp\AntDesign.Docs.WebApp\AntDesign.Docs.WebApp.csproj", "{7AD2A96F-0F92-4028-A6A0-CEEDAA9F690E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntDesign.Docs.WebApp.Client", "site\AntDesign.Docs.WebApp\AntDesign.Docs.WebApp.Client\AntDesign.Docs.WebApp.Client.csproj", "{55A07562-4D66-4CFA-8C6A-14DD59E73D1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AntDesign.Docs.WebApp.Client", "site\AntDesign.Docs.WebApp\AntDesign.Docs.WebApp.Client\AntDesign.Docs.WebApp.Client.csproj", "{55A07562-4D66-4CFA-8C6A-14DD59E73D1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AntDesign.core.JsInterop.EventArg
+namespace AntDesign.Core.JsInterop.EventArg
 {
     public class MouseEvent
     {

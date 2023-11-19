@@ -16,13 +16,13 @@
     >
       <DataAnnotationsValidator />
     <FormItem>
-        <Input @bind-Value="@context.Username" />
+        <Input @bind-Value="@model.Username" />
     </FormItem>
     <FormItem Label="Password">
-        <InputPassword @bind-Value="@context.Password" />
+        <InputText @bind-Value="@model.Password" />
     </FormItem>
     <FormItem WrapperColOffset="8" WrapperColSpan="16">
-        <Checkbox @bind-Value="context.RememberMe">Remember me</Checkbox>
+        <InputCheckbox @bind-Value="model.RememberMe">Remember me</InputCheckbox>
     </FormItem>
     <FormItem WrapperColOffset="8" WrapperColSpan="16">
         <Button Type="@ButtonType.Primary" HtmlType="submit">
@@ -42,7 +42,7 @@
         public bool RememberMe { get; set; } = true;
     }
 
-    [SupplyParameterFromForm]
+    [SupplyParameterFromForm(FormName ="abc")]
     public Model model { get; set; } = new Model();
 
     private void OnFinish(EditContext editContext)

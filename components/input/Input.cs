@@ -688,8 +688,12 @@ namespace AntDesign
                 }
             }
 
+
             builder.AddAttribute(50, "id", Id);
             builder.AddAttribute(51, "type", Type);
+
+            builder.AddAttribute(52, "name", NameAttributeValue);
+
             if (!String.IsNullOrWhiteSpace(Placeholder))
             {
                 builder.AddAttribute(60, "placeholder", Placeholder);

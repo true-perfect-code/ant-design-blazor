@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AntDesign.Core.Forms;
 using AntDesign.Core.Reflection;
 using AntDesign.Forms;
 using AntDesign.Internal;
@@ -50,6 +51,11 @@ namespace AntDesign
             }
         }
 
+        [CascadingParameter] private EditContext? CascadedEditContext { get; set; }
+
+        #if NET8_0_OR_GREATER
+        [CascadingParameter] private HtmlFieldPrefix FieldPrefix { get; set; } = default!;
+        #endif
         /// <summary>
         /// Gets or sets a collection of additional attributes that will be applied to the created element.
         /// </summary>
@@ -199,6 +205,8 @@ namespace AntDesign
         private TValue _firstValue;
         protected bool _isNotifyFieldChanged = true;
         private bool _isValueGuid;
+        private bool _shouldGenerateFieldNames;
+        private string? _formattedValueExpression;
 
         /// <summary>
         /// Constructs an instance of <see cref="InputBase{TValue}"/>.
@@ -295,9 +303,14 @@ namespace AntDesign
 
             if (EditContext == null)
             {
+
+#if NET8_0_OR_GREATER
+                // Ideally we'd know if we were in an SSR context but we don't
+                _shouldGenerateFieldNames = !OperatingSystem.IsBrowser();
+#endif
+
                 // This is the first run
                 // Could put this logic in OnInit, but its nice to avoid forcing people who override OnInit to call base.OnInit()
-
                 if (Form?.EditContext == null)
                 {
                     return base.SetParametersAsync(ParameterView.Empty);
@@ -316,6 +329,10 @@ namespace AntDesign
                 _nullableUnderlyingType = Nullable.GetUnderlyingType(typeof(TValue));
 
                 EditContext.OnValidationStateChanged += _validationStateChangedHandler;
+
+#if NET8_0_OR_GREATER
+                _shouldGenerateFieldNames = EditContext.ShouldUseFieldIdentifiers;
+#endif
             }
             else if (Form?.EditContext != EditContext)
             {
@@ -363,6 +380,33 @@ namespace AntDesign
         void IControlValueAccessor.Reset()
         {
             ResetValue();
+        }
+
+        protected string NameAttributeValue
+        {
+            get
+            {
+                if (AdditionalAttributes?.TryGetValue("name", out var nameAttributeValue) ?? false)
+                {
+                    return Convert.ToString(nameAttributeValue, CultureInfo.InvariantCulture) ?? string.Empty;
+                }
+
+                #if NET8_0_OR_GREATER
+                if (_shouldGenerateFieldNames)
+                {
+                    if (_formattedValueExpression is null && ValueExpression is not null)
+                    {
+                        _formattedValueExpression = FieldPrefix != null ? FieldPrefix.GetFieldName(ValueExpression) :
+                            ExpressionFormatter.FormatLambda(ValueExpression);
+                    }
+
+                    return _formattedValueExpression ?? string.Empty;
+                }
+
+                #endif
+
+                return string.Empty;
+            }
         }
     }
 }

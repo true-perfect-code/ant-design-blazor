@@ -86,7 +86,7 @@ namespace AntDesign
                 if (!(_model?.Equals(value) ?? false))
                 {
                     var wasNull = _model is null;
-                    _model = value;
+                    _model = value ?? Activator.CreateInstance<TModel>();
                     if (!wasNull)
                         BuildEditContext();
                 }
@@ -173,16 +173,20 @@ namespace AntDesign
 
         public event Action<IForm> OnFinishEvent;
 
+        public EditForm _form;
+
         protected override void OnInitialized()
         {
             base.OnInitialized();
-
-            _editContext = new EditContext(Model);
 
             if (FormProvider != null)
             {
                 FormProvider.AddForm(this);
             }
+
+            Model ??= Activator.CreateInstance<TModel>();
+
+            _editContext = new(Model);
 
             if (OnFieldChanged.HasDelegate)
                 _editContext.OnFieldChanged += OnFieldChangedHandler;
@@ -354,6 +358,8 @@ namespace AntDesign
         {
             if (_editContext == null)
                 return;
+
+            Model ??= Activator.CreateInstance<TModel>();
 
             var newContext = new EditContext(Model);
             foreach (var kv in GetEventInfos())

@@ -14,7 +14,8 @@
 }
 
 <Spin Spinning="Loading">
-    <EditForm class="@ClassMapper.Class"
+    <EditForm @ref="_form"
+              class="@ClassMapper.Class"
               style="@Style"
               id="@Id"
               @attributes="attributes"

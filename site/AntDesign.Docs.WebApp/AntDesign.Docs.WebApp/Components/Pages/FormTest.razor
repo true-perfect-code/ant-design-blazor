@@ -19,10 +19,10 @@
         <Input @bind-Value="@model.Username" />
     </FormItem>
     <FormItem Label="Password">
-        <InputText @bind-Value="@model.Password" />
+        <InputPassword @bind-Value="@model.Password" />
     </FormItem>
     <FormItem WrapperColOffset="8" WrapperColSpan="16">
-        <InputCheckbox @bind-Value="model.RememberMe">Remember me</InputCheckbox>
+        <Checkbox @bind-Value="model.RememberMe">Remember me</Checkbox>
     </FormItem>
     <FormItem WrapperColOffset="8" WrapperColSpan="16">
         <Button Type="@ButtonType.Primary" HtmlType="submit">

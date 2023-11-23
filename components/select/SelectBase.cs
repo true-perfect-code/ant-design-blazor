@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using AntDesign.Core.Extensions;
 using AntDesign.Internal;
 using AntDesign.Select;
 using AntDesign.Select.Internal;
@@ -776,7 +777,7 @@ namespace AntDesign
                     {
                         CustomTagSelectOptionItem = null;
                         AddedTags.Add(selectOption);
-                        if (!SelectOptionItems.Any(x => x.Value.Equals(selectOption.Value)))
+                        if (!SelectOptionItems.Any(x => x.Value.AllNullOrEquals(selectOption.Value)))
                         {
                             SelectOptionItems.Add(selectOption);
                         }

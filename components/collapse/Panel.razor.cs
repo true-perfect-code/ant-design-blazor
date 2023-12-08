@@ -116,11 +116,17 @@ namespace AntDesign
 
                 if (Active)
                 {
-                    HandleExpand();
+                    //HandleExpand();
+                    _isActive = true;
+                    _isInactive = false;
+                    _isHidden = false;
                 }
                 else
                 {
-                    HandleCollapse();
+                    //HandleCollapse();
+                    _isActive = false;
+                    _isInactive = true;
+                    _isHidden = true;
                 }
             }
         }
@@ -139,80 +145,82 @@ namespace AntDesign
 
         public void Toggle() => SetActive(!this.Active);
 
-        private async Task UpdateHeight()
-        {
-            var rect = await JsInvokeAsync<HtmlElement>(JSInteropConstants.GetDomInfo, _warpperRef);
-            _warpperHight = rect.ScrollHeight;
-        }
+        //private async Task UpdateHeight()
+        //{
+        //    var rect = await JsInvokeAsync<HtmlElement>(JSInteropConstants.GetDomInfo, _warpperRef);
+        //    _warpperHight = rect.ScrollHeight;
+        //}
 
-        private void HandleExpand()
-        {
-            _isActive = true;
-            _isInactive = false;
-            _isHidden = false;
-            _isCollapseEnterPrepare = true;
+        //private void HandleExpand()
+        //{
+        //    _isActive = true;
+        //    _isInactive = false;
+        //    _isHidden = false;
+        //    _isCollapseEnterPrepare = true;
 
-            CallAfterRender(async () =>
-            {
-                await UpdateHeight();
+        //    CallAfterRender(async () =>
+        //    {
+        //        await UpdateHeight();
 
-                _isCollapseEnterPrepare = false;
-                _isCollapseEnterStart = true;
-                _warpperStyle = "height: 0px; opacity: 0;";
+        //        _isCollapseEnterPrepare = false;
+        //        _isCollapseEnterStart = true;
+        //        _warpperStyle = "height: 0px; opacity: 0;";
 
-                CallAfterRender(async () =>
-                {
-                    _isCollapseEnterStart = false;
-                    _isCollapseEnterActive = true;
-                    StateHasChanged();
-                    await Task.Delay(100);
+        //        CallAfterRender(async () =>
+        //        {
+        //            _isCollapseEnterStart = false;
+        //            _isCollapseEnterActive = true;
+        //            StateHasChanged();
+        //            await Task.Delay(100);
 
-                    _warpperStyle = $"height: {_warpperHight}px; opacity: 1;";
-                    StateHasChanged();
-                    await Task.Delay(450);
+        //            _warpperStyle = $"height: {_warpperHight}px; opacity: 1;";
+        //            StateHasChanged();
+        //            await Task.Delay(450);
 
-                    _isCollapseEnterActive = false;
-                    _warpperStyle = "";
-                    StateHasChanged();
-                });
+        //            _isCollapseEnterActive = false;
+        //            _warpperStyle = "";
+        //            StateHasChanged();
+        //        });
 
-                StateHasChanged();
-            });
-        }
+        //        StateHasChanged();
+        //    });
 
-        private void HandleCollapse()
-        {
-            _isActive = false;
-            _isInactive = true;
-            _isCollapseLeavePrepare = true;
+        //    StateHasChanged();
+        //}
 
-            CallAfterRender(async () =>
-            {
-                _isCollapseLeavePrepare = false;
-                _isCollapseLeaveStart = true;
-                _warpperStyle = $"height: {_warpperHight}px;";
+        //private void HandleCollapse()
+        //{
+        //    _isActive = false;
+        //    _isInactive = true;
+        //    _isCollapseLeavePrepare = true;
 
-                CallAfterRender(async () =>
-                {
-                    await Task.Delay(100);
-                    _isCollapseLeaveStart = false;
-                    _isCollapseLeaveActive = true;
+        //    CallAfterRender(async () =>
+        //    {
+        //        _isCollapseLeavePrepare = false;
+        //        _isCollapseLeaveStart = true;
+        //        _warpperStyle = $"height: {_warpperHight}px;";
 
-                    _warpperStyle = "height: 0px; opacity: 0;";//still active
-                    StateHasChanged();
+        //        CallAfterRender(async () =>
+        //        {
+        //            await Task.Delay(100);
+        //            _isCollapseLeaveStart = false;
+        //            _isCollapseLeaveActive = true;
 
-                    await Task.Delay(450);
-                    _isHidden = true; // still height 0
-                    _warpperStyle = "";
-                    _isCollapseLeaveActive = false;
-                    StateHasChanged();
-                });
+        //            _warpperStyle = "height: 0px; opacity: 0;";//still active
+        //            StateHasChanged();
 
-                StateHasChanged();
-                await Task.Yield();
-            });
+        //            await Task.Delay(450);
+        //            _isHidden = true; // still height 0
+        //            _warpperStyle = "";
+        //            _isCollapseLeaveActive = false;
+        //            StateHasChanged();
+        //        });
 
-            StateHasChanged();
-        }
+        //        StateHasChanged();
+        //        await Task.Yield();
+        //    });
+
+        //    StateHasChanged();
+        //}
     }
 }
